@@ -1,0 +1,10 @@
+*{
+  box-sizing: border-box;
+}
+h1{
+  font-family: 'Dancing Script', cursive;
+}
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
