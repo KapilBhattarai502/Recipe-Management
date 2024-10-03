@@ -8,13 +8,14 @@ import FavoriteIcon from "@mui/icons-material/Favorite";
 import EditIcon from "@mui/icons-material/Edit";
 import { useRef } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import CancelPresentationIcon from "@mui/icons-material/CancelPresentation";
 
 const Home = () => {
   const location = useLocation();
 
   const navigate = useNavigate();
 
-  const jwt = localStorage.getItem("jwt");
+  
 
   const params = new URLSearchParams(location.search);
 
@@ -39,14 +40,14 @@ const Home = () => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${jwt}`,
+       
       },
     }).then((response) => {
       response.json().then((data) => {
         setDisplaydata(data);
       });
     });
-  }, [titleSearch]);
+  }, [titleSearch,navigate]);
 
   const inputRef = useRef(null);
   const handleInput = () => {
@@ -59,9 +60,12 @@ const Home = () => {
   const handleRecipes = () => {
     navigate("/recipes");
   };
-  const handleAddRecipe=()=>{
-    navigate('/addrecipe')
+  const handleAddRecipe = () => {
+    navigate("/addrecipe");
+  };
 
+  const removeRecipe=(id)=>{
+    setDisplaydata(displayData.filter((item)=>item._id!==id))
   }
 
   return (
@@ -72,7 +76,10 @@ const Home = () => {
       <div>
         <Grid container spacing={2}>
           <Grid size={4} className="p-4">
-            <div className="flex justify-between items-center bg-slate-800 p-3 text-white rounded-sm cursor-pointer" onClick={handleAddRecipe}>
+            <div
+              className="flex justify-between items-center bg-slate-800 p-3 text-white rounded-sm cursor-pointer"
+              onClick={handleAddRecipe}
+            >
               <p className="text-lg">Add A Recipe</p>
               <AddIcon />
             </div>
@@ -125,11 +132,15 @@ const Home = () => {
         {displayData?.length > 0 &&
           displayData.map((item, index) => {
             return (
-              <div className="p-5 text-center bg-slate-800" key={index}>
-                <h1 className="text-xl text-white font-semibold">
-                  {item.title.toUpperCase()}
-                </h1>
+              <div
+                className="p-5 text-center bg-slate-800 relative"
+                key={index}
+              >
+                <CancelPresentationIcon className="absolute right-2 top-4 cursor-pointer text-white" onClick={()=>removeRecipe(item._id)} />
                 <div>
+                  <h1 className="text-xl text-white font-semibold">
+                    {item.title.toUpperCase()}
+                  </h1>
                   <p className="text-white mt-2 text-lg">
                     Ingredients:{item.Ingredients}
                   </p>
@@ -149,9 +160,6 @@ const Home = () => {
               </div>
             );
           })}
-          {displayData?.length===0 && <div>
-            <h1>You havenot Created Any Recipes</h1>
-          </div>}
       </div>
     </div>
   );

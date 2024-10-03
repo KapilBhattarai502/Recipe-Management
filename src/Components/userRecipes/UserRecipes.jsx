@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 
 const UserRecipes = () => {
   const jwt = localStorage.getItem("jwt");
+  // console.log(jwt);
 
-  const [displayData, setDisplayData] = useState("");
+  const [displayData, setDisplayData] = useState([]);
   useEffect(() => {
+    console.log("use Effect");
     fetch("http://localhost:6700/recipe/getuserrecipes", {
       method: "GET",
       headers: {
@@ -18,12 +20,16 @@ const UserRecipes = () => {
     });
   }, [jwt]);
   console.log("display Data is", displayData);
+
   return (
     <div>
       {displayData?.length > 0 &&
         displayData.map((item, index) => {
           return (
-            <div className=" bg-slate-800 text-white mt-3 text-center p-4 rounded-md" key={index}>
+            <div
+              className=" bg-slate-800 text-white mt-3 text-center p-4 rounded-md"
+              key={index}
+            >
               <h1>{item.title.toUpperCase()}</h1>
               <div>
                 <p className="text-white mt-2 text-lg">

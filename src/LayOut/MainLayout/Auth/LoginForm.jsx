@@ -1,13 +1,21 @@
-import React, { useEffect, useState } from "react";
+import React, {  useContext, useState } from "react";
+import { LoginContext } from "../MainLayout";
+
+
 
 const LoginForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const {setJwt}=useContext(LoginContext);
+
+
+
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetch("http://localhost:6700/auth/login", {
+        await fetch("http://localhost:6700/auth/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: {
@@ -15,13 +23,17 @@ const LoginForm = () => {
         },
       }).then((response) => {
         response.json().then(({token}) => {
-         localStorage.setItem("jwt",token);
+        localStorage.setItem("jwt",token);
+        setJwt(token);
         });
       });
+     
     } catch (error) {
       throw new Error(error.message);
     }
   };
+
+
 
   return (
     <div>
@@ -65,5 +77,7 @@ const LoginForm = () => {
     </div>
   );
 };
+
+
 
 export default LoginForm;

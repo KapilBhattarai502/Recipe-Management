@@ -9,7 +9,7 @@ const RegisterForm = () => {
         {" "}
         Username:
         <input
-          type="email"
+          type="text"
           htmlFor={"usrname"}
           className="border-2 border-slate-500 rounded-md ml-2 w-full p-1"
           required

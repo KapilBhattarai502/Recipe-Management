@@ -35,7 +35,7 @@ const style = {
         <Box sx={style}>
           
           <Typography id="modal-modal-description">
-            {isLoggedIn ? <LoginForm/> : <RegisterForm/>}
+            {isLoggedIn ? <LoginForm /> : <RegisterForm/>}
            </Typography>
         </Box>
       </Modal>
